@@ -2,6 +2,7 @@ import { LinkSchema } from '@/schemas/link'
 
 export default eventHandler(async (event) => {
   const link = await readValidatedBody(event, LinkSchema.parse)
+  const token = getHeader(event, 'Authorization')?.replace('Bearer ', '')
 
   const { cloudflare } = event.context
   const { KV } = cloudflare.env
@@ -17,6 +18,7 @@ export default eventHandler(async (event) => {
 
     await KV.put(`link:${link.slug}`, JSON.stringify(link), {
       expiration,
+      token,
       metadata: {
         expiration,
       },

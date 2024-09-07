@@ -23,6 +23,8 @@ export default eventHandler(async (event) => {
         console.error('Failed write access log:', error)
       }
       return sendRedirect(event, link.url, +useRuntimeConfig(event).redirectStatusCode)
+    } else {
+      return sendRedirect(event, 'https://p.vetc.com.vn/c/' + slug, +useRuntimeConfig(event).redirectStatusCode)
     }
   }
 })
